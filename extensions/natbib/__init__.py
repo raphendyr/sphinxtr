@@ -13,11 +13,11 @@ import pybtex.style.names.lastfirst
 import pybtex.backends.plaintext
 
 import collections
-import latex_codec
 import os
 import re
 
 from backports import OrderedSet
+from . import latex_codec
 
 # fix pybtex bug in some versions
 try:
@@ -175,9 +175,9 @@ class CitationTransform(object):
     sep = u'%s ' % self.config['separator']
     style = self.config['style']
     all_auths = (cmd.endswith('s'))
-    alt = (cmd.startswith('alt') or \
-                (cmd.startswith('alp')) or \
-                (style == 'citeyear'))
+    alt = (cmd.startswith('alt') or
+           cmd.startswith('alp') or
+           style == 'citeyear')
 
     if (cmd.startswith('p') or cmd == 'yearpar') and style != 'super':
       node = nodes.inline(bo, bo, classes=['citation'])
@@ -420,7 +420,7 @@ class CitationReferencesDirective(Directive):
 
     if pub is None:
       howpub = ref.fields.get('howpublished')
-      if howpub is not None and howpub.startswith('\url{'):
+      if howpub is not None and howpub.startswith('\\url{'):
         url = howpub[5:-1]
         refnode = nodes.reference('', '', internal=False, refuri=url)
         refnode += nodes.Text(url, url)
